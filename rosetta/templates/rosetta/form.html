@@ -9,9 +9,6 @@
             <a href="{% url 'rosetta-download-file' po_filter=po_filter lang_id=lang_id idx=idx %}">{% trans "Download this catalog" %}</a></span>
         </p>
     </div>
-    <script type="text/javascript">
-    </script>
-
 {% endblock %}
 
 {% block pagetitle %}{{block.super}} - {{rosetta_settings.MESSAGES_SOURCE_LANGUAGE_NAME}} - {{rosetta_i18n_lang_name}} ({{ rosetta_i18n_pofile.percent_translated }}%){% endblock %}
@@ -75,7 +72,7 @@
                         <th><div class="text">{% trans "Original" %}</div></th>
                         {% if main_language %}<th>{{ main_language }}</th>{% endif %}
                         <th>{{ rosetta_i18n_lang_name }}</th>
-                        <th class="info-tip c" title="{% trans "Fuzzy entries call for revision by the translator." %}"><input style="display: inline;" id="action-toggle" type="checkbox"> {% trans "Fuzzy" %}</th>
+                        <th class="info-tip c" title="{% trans "Fuzzy entries call for revision by the translator." %}"><input id="action-toggle" type="checkbox"> {% trans "Fuzzy" %}</th>
                         {% if rosetta_settings.SHOW_OCCURRENCES %}<th>{% trans "Occurrences(s)" %}</th>{% endif %}
                     </tr>
                 </thead>

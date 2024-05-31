@@ -520,11 +520,26 @@ class TranslationFormView(RosettaFileLevelMixin, TemplateView):
             {k: v for k, v in query_string_args.items() if k == "ref_lang"}
         )
 
+        rosetta_settings_js = {
+            "ENABLE_TRANSLATION_SUGGESTIONS": rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS,
+            "MESSAGES_SOURCE_LANGUAGE_CODE": rosetta_settings.MESSAGES_SOURCE_LANGUAGE_CODE,
+            "YANDEX_TRANSLATE_KEY": rosetta_settings.YANDEX_TRANSLATE_KEY,
+            "rosetta_i18n_lang_code": self.language_id,
+            "translate_text_url": reverse("rosetta.translate_text"),
+            "rosetta_i18n_lang_code_normalized ": self.language_id.replace("_", "-"),
+            "server_auth_key": bool(
+                rosetta_settings.DEEPL_AUTH_KEY
+                or rosetta_settings.AZURE_CLIENT_SECRET
+                or rosetta_settings.GOOGLE_APPLICATION_CREDENTIALS_PATH
+            ),
+        }
+
         context.update(
             {
                 "version": get_rosetta_version(),
                 "LANGUAGES": LANGUAGES,
                 "rosetta_settings": rosetta_settings,
+                "rosetta_settings_js": rosetta_settings_js,
                 "rosetta_i18n_lang_name": rosetta_i18n_lang_name,
                 "rosetta_i18n_lang_code": self.language_id,
                 "rosetta_i18n_lang_code_normalized": self.language_id.replace("_", "-"),
