@@ -125,3 +125,6 @@ DEEPL_AUTH_KEY = None
 # But for 'en' if you want "EN-GB" for example, please set it in this dictionary.
 # Please check the supported languages list of DeepL API: https://www.deepl.com/docs-api/translating-text/request/
 DEEPL_LANGUAGES = None  # ex: {"fr": "FR", "en": "EN-GB", "zh_Hans": "ZH"}
+
+# Speed up testing. Don't use this setting in production
+PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
