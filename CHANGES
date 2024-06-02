@@ -5,6 +5,8 @@ Version 0.10.1 (unreleased)
 ---------------------------
 * Remamed the zh_hans locale to zh_Hans (issue #282, thanks @sunfkny)
 * Fixed the test configuration following #282
+* Improve CSP support by avoiding inline styles and server-side rendered stylesheets (#287, thank you @bmihelac)
+
 
 Version 0.10.0
 --------------
