@@ -61,6 +61,8 @@ def translate_by_deepl(text, to_language, auth_key):
             "text": text,
         },
     )
+    if r.status_code != 200:
+        raise TranslationException(f"Deepl response is {r.status_code}. Please check your API key or try again later.")
     return r.json().get("translations")[0].get("text")
 
 
