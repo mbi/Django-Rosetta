@@ -526,7 +526,7 @@ class TranslationFormView(RosettaFileLevelMixin, TemplateView):
             "YANDEX_TRANSLATE_KEY": rosetta_settings.YANDEX_TRANSLATE_KEY,
             "rosetta_i18n_lang_code": self.language_id,
             "translate_text_url": reverse("rosetta.translate_text"),
-            "rosetta_i18n_lang_code_normalized ": self.language_id.replace("_", "-"),
+            "rosetta_i18n_lang_code_normalized": self.language_id.replace("_", "-"),
             "server_auth_key": bool(
                 rosetta_settings.DEEPL_AUTH_KEY
                 or rosetta_settings.AZURE_CLIENT_SECRET
