@@ -1009,6 +1009,44 @@ class RosettaTestCase(TestCase):
         )
         self.assertContains(r, '"Salut tout le monde"')
 
+    @vcr.use_cassette(
+        "fixtures/vcr_cassettes/test_deepl_ajax_translation_with_variables.yaml",
+        match_on=["method", "scheme", "port", "path", "query", "raw_body"],
+        record_mode="once",
+    )
+    @override_settings(
+        DEEPL_AUTH_KEY="FAKE",
+        AZURE_CLIENT_SECRET=None,
+    )
+    def test_deepl_ajax_translation_with_variables(self):
+        cases = {
+            "de": "Es gibt %(items)d %(name)s verfügbar.",
+            "it": "Ci sono %(items)d %(name)s disponibili.",
+            "pt": "Há %(items)d %(name)s disponíveis.",
+        }
+        for lang, text in cases.items():
+            r = self.client.get(
+                reverse("rosetta.translate_text") + f"?from={lang}&to=en&text={text}"
+            )
+            self.assertEqual(
+                r.json().get("translation"), "There are %(items)d %(name)s available."
+            )
+
+    def test_formating_text_to_and_from_deepl(self):
+        from ..translate_utils import format_text
+
+        samples = [
+            "Es gibt %(items)d %(name)s verfügbar.",
+            "Ci sono %(items)d %(name)s disponibili.",
+            "Há %(items)d %(name)s disponíveis.",
+            "Stokta %(items)d %(name)s var.",
+        ]
+        for sample in samples:
+            to_deepl = format_text(sample, "to_deepl")
+            from_deepl = format_text(to_deepl, "from_deepl")
+            back_to_deepl = format_text(from_deepl, "to_deepl")
+            self.assertEqual(to_deepl, back_to_deepl)
+
     @override_settings(ROSETTA_REQUIRES_AUTH=True)
     def test_48_requires_auth_not_respected_issue_203(self):
         self.client.logout()

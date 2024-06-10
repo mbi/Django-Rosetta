@@ -1,6 +1,6 @@
 import json
+import re
 import uuid
-
 import requests
 
 from django.conf import settings
@@ -47,7 +47,41 @@ def translate(text, from_language, to_language):
         raise TranslationException("No translation API service is configured.")
 
 
+def format_text(text, direction="to_deepl"):
+    # TODO find a better name
+    if direction == "to_deepl":
+        pattern = r"%\((\w+)\)(\w)"
+
+        def replace_variable(match):
+            # Our pattern will always catch 2 groups, the first group being '%('
+            # Second group being ')d' or ')s'
+            variable = match.group(1)
+            type_specifier = match.group(2)
+            if variable and type_specifier:
+                return f"<var>{variable}</var><type><var>{type_specifier}</var></type>"
+            else:
+                raise TranslationException("Badly formatted variable in translation")
+
+        return re.sub(pattern, replace_variable, text)
+    else:
+        return (
+            text.replace("<type><var>", "")
+            .replace("</var></type>", "")
+            .replace("<var>", "%(")
+            .replace("</var>", ")")
+        )
+
+
 def translate_by_deepl(text, to_language, auth_key):
+    """
+    This method connects to the translator Deepl API and fetches a response with translations.
+    :param text: The source text to be translated
+    :param to_language: The target language to translate the text into
+    Wraps variables in <var></var> tags and instructs Deepl not to translate those.
+    Then from Deepl response, converts back these tags to django variable syntax.
+    %(name)s becomes <var>name</var><type><var>s</var></type> and back to %(name) in the response text.
+    :return: Returns the response from the Deepl as a python object.
+    """
     if auth_key.lower().endswith(":fx"):
         endpoint = "https://api-free.deepl.com"
     else:
@@ -57,11 +91,15 @@ def translate_by_deepl(text, to_language, auth_key):
         f"{endpoint}/v2/translate",
         headers={"Authorization": f"DeepL-Auth-Key {auth_key}"},
         data={
+            "tag_handling": "xml",
+            "ignore_tags": "var",
             "target_lang": to_language.upper(),
-            "text": text,
+            "text": format_text(text, "to_deepl"),
         },
     )
-    return r.json().get("translations")[0].get("text")
+    result = r.json().get("translations")[0].get("text")
+
+    return format_text(result, "from_deepl")
 
 
 def translate_by_azure(text, from_language, to_language, subscription_key):
