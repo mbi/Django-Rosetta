@@ -6,6 +6,7 @@ Version 0.10.1 (unreleased)
 * Remamed the zh_hans locale to zh_Hans (issue #282, thanks @sunfkny)
 * Fixed the test configuration following #282
 * Improve CSP support by avoiding inline styles and server-side rendered stylesheets (#287, thank you @bmihelac)
+* Improve error handling when using the Deepl translation service (#288, thank you @halitcelik)
 
 
 Version 0.10.0

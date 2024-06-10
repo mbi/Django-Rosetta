@@ -97,9 +97,14 @@ def translate_by_deepl(text, to_language, auth_key):
             "text": format_text(text, "to_deepl"),
         },
     )
-    result = r.json().get("translations")[0].get("text")
-
-    return format_text(result, "from_deepl")
+    if r.status_code != 200:
+        raise TranslationException(
+            f"Deepl response is {r.status_code}. Please check your API key or try again later."
+        )
+    try:
+        return format_text(r.json().get("translations")[0].get("text"), "from_deepl")
+    except Exception:
+        raise TranslationException("Deepl returned a non-JSON or unexpected response.")
 
 
 def translate_by_azure(text, from_language, to_language, subscription_key):
