@@ -28,8 +28,6 @@ interactions:
       - '*'
       access-control-expose-headers:
       - Server-Timing, X-Trace-ID
-      content-encoding:
-      - gzip
       content-type:
       - application/json
       date:
@@ -76,8 +74,6 @@ interactions:
       - '*'
       access-control-expose-headers:
       - Server-Timing, X-Trace-ID
-      content-encoding:
-      - gzip
       content-type:
       - application/json
       date:
@@ -124,8 +120,6 @@ interactions:
       - '*'
       access-control-expose-headers:
       - Server-Timing, X-Trace-ID
-      content-encoding:
-      - gzip
       content-type:
       - application/json
       date:
