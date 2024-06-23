@@ -50,7 +50,7 @@ msgstr "Filtr"
 
 #: rosetta/templates/rosetta/file-list.html:15
 msgid "Project"
-msgstr "Proyekt"
+msgstr "Layihə"
 
 #: rosetta/templates/rosetta/file-list.html:16
 msgid "Third party"
@@ -67,7 +67,7 @@ msgstr "Tətbiq"
 
 #: rosetta/templates/rosetta/file-list.html:32
 msgid "Progress"
-msgstr "Proqress"
+msgstr "Proqres"
 
 #: rosetta/templates/rosetta/file-list.html:33
 msgid "Messages"
@@ -123,7 +123,7 @@ msgstr "Bu kataloqu yükləyin"
 #: rosetta/templates/rosetta/form.html:24
 #, python-format
 msgid "Progress: %(percent_translated)s%%"
-msgstr "ProqressI %(percent_translated)s%%"
+msgstr "Proqres: %(percent_translated)s%%"
 
 #: rosetta/templates/rosetta/form.html:26
 msgid "File is read-only: download the file when done editing!"
