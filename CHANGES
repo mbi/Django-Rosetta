@@ -7,6 +7,7 @@ Version 0.10.1 (unreleased)
 * Fixed the test configuration following #282
 * Improve CSP support by avoiding inline styles and server-side rendered stylesheets (#287, thank you @bmihelac)
 * Improve error handling when using the Deepl translation service (#288, thank you @halitcelik)
+* Add support for translation using OpenAI API (#275, #291, thank you @ydf, PR by @vusallyv)
 
 
 Version 0.10.0
