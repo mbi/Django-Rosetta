@@ -31,6 +31,7 @@ class RosettaSettings(object):
         ),
         "GOOGLE_PROJECT_ID": ("GOOGLE_PROJECT_ID", None),
         "DEEPL_AUTH_KEY": ("DEEPL_AUTH_KEY", None),
+        "OPENAI_API_KEY": ("OPENAI_API_KEY", None),
         "ROSETTA_MAIN_LANGUAGE": ("MAIN_LANGUAGE", None),
         "ROSETTA_MESSAGES_SOURCE_LANGUAGE_CODE": (
             "MESSAGES_SOURCE_LANGUAGE_CODE",

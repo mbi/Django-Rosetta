@@ -17,6 +17,7 @@ def translate(text, from_language, to_language):
     )
     GOOGLE_PROJECT_ID = getattr(settings, "GOOGLE_PROJECT_ID", None)
     DEEPL_AUTH_KEY = getattr(settings, "DEEPL_AUTH_KEY", None)
+    OPENAI_API_KEY = getattr(settings, "OPENAI_API_KEY", None)
 
     if DEEPL_AUTH_KEY:
         deepl_language_code = None
@@ -43,6 +44,8 @@ def translate(text, from_language, to_language):
             GOOGLE_APPLICATION_CREDENTIALS_PATH,
             GOOGLE_PROJECT_ID,
         )
+    elif OPENAI_API_KEY:
+        return translate_by_openai(text, from_language, to_language, OPENAI_API_KEY)
     else:
         raise TranslationException("No translation API service is configured.")
 
@@ -167,3 +170,31 @@ def translate_by_google(
         raise TranslationException("Google API error: {}".format(e))
     else:
         return str(api_response.translations[0].translated_text)
+
+
+def translate_by_openai(text: str, from_language: str, to_language: str, api_key: str) -> str:
+    """
+    Translate text using OpenAI's GPT-3.5-turbo-instruct engine.
+    param text: The text to translate.
+    param from_language: The language of the text.
+    param to_language: The language to translate the text into.
+    param api_key: The OpenAI API key.
+    return: The translated text.
+    """
+
+    import openai
+
+    openai.api_key = api_key
+
+    prompt = f"Translate the following text from {from_language} to {to_language}:\n\n{text}"
+
+    try:
+        response = openai.Completion.create(
+            engine="gpt-3.5-turbo-instruct",
+            prompt=prompt,
+        )
+        translation = response.choices[0].text.strip()
+    except Exception as e:
+        raise TranslationException("OpenAI API error: {}".format(e))
+
+    return translation
