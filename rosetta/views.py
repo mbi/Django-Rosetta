@@ -531,6 +531,7 @@ class TranslationFormView(RosettaFileLevelMixin, TemplateView):
                 rosetta_settings.DEEPL_AUTH_KEY
                 or rosetta_settings.AZURE_CLIENT_SECRET
                 or rosetta_settings.GOOGLE_APPLICATION_CREDENTIALS_PATH
+                or rosetta_settings.OPENAI_API_KEY
             ),
         }
 

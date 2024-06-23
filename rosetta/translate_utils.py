@@ -182,16 +182,16 @@ def translate_by_openai(text: str, from_language: str, to_language: str, api_key
     return: The translated text.
     """
 
-    import openai
+    from openai import OpenAI
 
-    openai.api_key = api_key
+    client = OpenAI(api_key=api_key)
 
     prompt = f"Translate the following text from {from_language} to {to_language}:\n\n{text}"
 
     try:
-        response = openai.Completion.create(
-            engine="gpt-3.5-turbo-instruct",
-            prompt=prompt,
+        response = client.completions.create(
+            model="gpt-3.5-turbo-instruct",
+            prompt=prompt
         )
         translation = response.choices[0].text.strip()
     except Exception as e:
