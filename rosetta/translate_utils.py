@@ -172,7 +172,9 @@ def translate_by_google(
         return str(api_response.translations[0].translated_text)
 
 
-def translate_by_openai(text: str, from_language: str, to_language: str, api_key: str) -> str:
+def translate_by_openai(
+    text: str, from_language: str, to_language: str, api_key: str
+) -> str:
     """
     Translate text using OpenAI's GPT-3.5-turbo-instruct engine.
     param text: The text to translate.
@@ -185,20 +187,19 @@ def translate_by_openai(text: str, from_language: str, to_language: str, api_key
     from openai import OpenAI
 
     client = OpenAI(api_key=api_key)
+    prompt_template = getattr(
+        settings,
+        "OPENAI_PROMPT_TEMPLATE",
+        "Translate the following text from {from_language} to {to_language}:\n\n{text}",
+    )
 
-    default_template = "Translate the following text from {from_language} to {to_language}:\n\n{text}"
-    prompt_template = getattr(settings, "OPENAI_PROMPT_TEMPLATE", default_template)
-
-    prompt = prompt_template.format(**{
-        'from_language': from_language,
-        'to_language': to_language,
-        'text': text
-    })
+    prompt = prompt_template.format(
+        **{"from_language": from_language, "to_language": to_language, "text": text}
+    )
 
     try:
         response = client.completions.create(
-            model="gpt-3.5-turbo-instruct",
-            prompt=prompt
+            model="gpt-3.5-turbo-instruct", prompt=prompt
         )
         translation = response.choices[0].text.strip()
     except Exception as e:

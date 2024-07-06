@@ -9,6 +9,7 @@ Version 0.10.1 (unreleased)
 * Improve error handling when using the Deepl translation service (#288, thank you @halitcelik)
 * Add support for translation using OpenAI API (#275, #291, thank you @ydf, PR by @vusallyv)
 * Adds Azerbaijani translation (#284 thanks @vusallyv and @nemoralis)
+* Allow overriding OpenAI prompt with a template (PR #293, thanks @danleyb2)
 
 
 Version 0.10.0

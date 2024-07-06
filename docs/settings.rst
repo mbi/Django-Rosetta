@@ -29,7 +29,7 @@ Rosetta can be configured via the following parameters, to be defined in your pr
 * ``ROSETTA_SHOW_OCCURRENCES``: Determines whether occurrences (where the original text appears) should be shown next to the translations for context. Defaults to ``True``.
 * ``ROSETTA_CASE_SENSITIVE_FILESYSTEM``: Overrides auto-detection of case sensitive OS. Defaults to ``None`` which enables auto-detection. Useful when running case sensitive OS (e.g. Ubuntu) in docker on case insensitive OS (e.g. MacOS).
 * ``OPENAI_API_KEY``: Translation suggestions using the OpenAI API. To use this service, you must first `register for the service <https://beta.openai.com/signup/>`, and set ``OPENAI_API_KEY`` to the key listed for your subscription. Requires `openai-python`. Defaults to ``None``.
-* ``OPENAI_PROMPT_TEMPLATE``: Format template used to generate prompt. variables `from_language`, `to_language` and `text` are available for substitution. Defaults to ``Translate the following text from {from_language} to {to_language}:\n\n{text}``.
+* ``OPENAI_PROMPT_TEMPLATE``: Format template used to generate prompt when translating with OpenAI. variables `from_language`, `to_language` and `text` are available for substitution. Defaults to ``Translate the following text from {from_language} to {to_language}:\n\n{text}``.
 
 
 
