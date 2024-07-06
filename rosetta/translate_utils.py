@@ -186,7 +186,14 @@ def translate_by_openai(text: str, from_language: str, to_language: str, api_key
 
     client = OpenAI(api_key=api_key)
 
-    prompt = f"Translate the following text from {from_language} to {to_language}:\n\n{text}"
+    default_template = "Translate the following text from {from_language} to {to_language}:\n\n{text}"
+    prompt_template = getattr(settings, "OPENAI_PROMPT_TEMPLATE", default_template)
+
+    prompt = prompt_template.format(**{
+        'from_language': from_language,
+        'to_language': to_language,
+        'text': text
+    })
 
     try:
         response = client.completions.create(
