@@ -17,7 +17,6 @@ $(document).ready(function () {
             $("a.suggest").click(function (e) {
                 e.preventDefault();
                 var a = $(this);
-                var str = a.html();
                 var orig = $(".original .message", a.parents("tr")).html();
                 var trans = $("textarea", a.parent());
                 var sourceLang = rosetta_settings.MESSAGES_SOURCE_LANGUAGE_CODE;
@@ -44,7 +43,7 @@ $(document).ready(function () {
                                 unescape(data.translation)
                                     .replace(/&#39;/g, "'")
                                     .replace(/&quot;/g, '"')
-                                    .replace(/%\s+(\([^\)]+\))\s*s/g, " %$1s "),
+                                    .replace(/%\s+(\([^)]+\))\s*s/g, " %$1s "),
                             );
                             a.hide();
                         } else {
@@ -57,7 +56,6 @@ $(document).ready(function () {
             $("a.suggest").click(function (e) {
                 e.preventDefault();
                 var a = $(this);
-                var str = a.html();
                 var orig = $(".original .message", a.parents("tr")).html();
                 var trans = $("textarea", a.parent());
                 var apiUrl = "https://translate.yandex.net/api/v1.5/tr.json/translate";
@@ -101,7 +99,7 @@ $(document).ready(function () {
         }
     }
 
-    $("td.plural").each(function (i) {
+    $("td.plural").each(function () {
         var td = $(this);
         var trY = parseInt(td.closest("tr").offset().top);
         $("textarea", $(this).closest("tr")).each(function (j) {
@@ -114,7 +112,7 @@ $(document).ready(function () {
         .blur(function () {
             if ($(this).val()) {
                 $(".alert", $(this).parents("tr")).remove();
-                var RX = /%(?:\([^\s\)]*\))?[sdf]|\{[\w\d_]+?\}/g;
+                var RX = /%(?:\([^\s)]*\))?[sdf]|\{[\w\d_]+?\}/g;
                 var origs = $(this).parents("tr").find(".original span").html().match(RX);
                 var trads = $(this).val().match(RX);
                 var error = $('<span class="alert">Unmatched variables</span>');
