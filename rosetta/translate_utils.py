@@ -22,7 +22,7 @@ def translate(text, from_language, to_language):
     if DEEPL_AUTH_KEY:
         deepl_language_code = None
         DEEPL_LANGUAGES = getattr(settings, "DEEPL_LANGUAGES", None)
-        if type(DEEPL_LANGUAGES) is dict:
+        if isinstance(DEEPL_LANGUAGES, dict):
             deepl_language_code = DEEPL_LANGUAGES.get(to_language, None)
 
         if deepl_language_code is None:
