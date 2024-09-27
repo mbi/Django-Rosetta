@@ -49,7 +49,13 @@ td.location code.hide {
 }
 .submit-row {
     margin-bottom: 0;
+    margin-top: 0.5rem;
 }
+#changelist .paginator {
+    background: var(--darkened-bg);
+    border-bottom: none;
+}
+
 li.nobubble,
 li.nobubble:hover {
     background-image: none;
