@@ -56,7 +56,7 @@
         {% if rosetta_settings.ENABLE_REFLANG %}
             <div class="actions">
                 <label for="ref-language-selector">{% trans "Reference language" %}:</label>
-                <select class="select-across" id="ref-language-selector" onchange="javascript:window.location.href = this.value;">
+                <select class="select-across" id="ref-language-selector">
                     {% for langid, langname in LANGUAGES %}
                         <option{% if ref_lang == langid %} selected="selected"{% endif %} value="?ref_lang={{ langid }}">{{ langname }}</option>
                     {% endfor %}
@@ -89,7 +89,9 @@
                                 <td class="translation">
                                     {% for k, msgstr in message.msgstr_plural.items %}
                                         <label for="m_{{ message.md5hash }}_{{ k }}">{{ k }}:</label>
+                                        <span class="alert hidden">{% trans "Unmatched variables" %}</span>
                                         <textarea rows="{{ message.msgid|format_message|lines_count }}" cols="40" id="m_{{ message.md5hash }}_{{ k }}" name="m_{{ message.md5hash }}_{{ k }}" tabindex="{% increment tab_idx %}">{{ msgstr }}</textarea>
+                                        {% if rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS %}<a href="#" class="suggest">{% trans "suggest" %}</a>{% endif %}
                                     {% endfor %}
                                 </td>
                             {% else %}
@@ -102,6 +104,7 @@
                                 </td>
                                 {% if main_language %}<td class="original">{{ message.main_lang|format_message|linebreaksbr }}</td>{% endif %}
                                 <td class="translation">
+                                    <span class="alert hidden">{% trans "Unmatched variables" %}</span>
                                     <textarea rows="{{ message.msgid|format_message|lines_count }}" cols="40" name="m_{{ message.md5hash }}" tabindex="{% increment tab_idx %}">{{ message.msgstr }}</textarea>
                                     {% if rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS %}<a href="#" class="suggest">{% trans "suggest" %}</a>{% endif %}
                                 </td>
@@ -115,7 +118,7 @@
                                         <code{% if forloop.counter|gt:"3" %} class="hide"{% endif %}>{{ fn }}{% if lineno %}:{{ lineno }}{% endif %}</code>
                                     {% endfor %}
                                     {% if message.occurrences|length|gt:"3" %}
-                                        <a href="#">&hellip; ({% blocktrans count message.occurrences|length|minus:"3" as more_count %}{{ more_count }} more{% plural %}{{ more_count }} more{% endblocktrans %})</a>
+                                        <a href="#" data-prev-text="{% trans "Show less" %}">&hellip; ({% blocktrans count message.occurrences|length|minus:"3" as more_count %}{{ more_count }} more{% plural %}{{ more_count }} more{% endblocktrans %})</a>
                                     {% endif %}
                                     {% if message.msgctxt or message.comment %}
                                         <span class="context">
