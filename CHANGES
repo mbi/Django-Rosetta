@@ -1,6 +1,11 @@
 Version History
 ===============
 
+Version 0.10.2 (unreleased)
+---------------------------
+* Tests: update flake8 in tox tests
+
+
 Version 0.10.1
 --------------
 * Remamed the zh_hans locale to zh_Hans (issue #282, thanks @sunfkny)
