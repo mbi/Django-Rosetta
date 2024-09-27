@@ -4,6 +4,7 @@ Version History
 Version 0.10.2 (unreleased)
 ---------------------------
 * Tests: update flake8 in tox tests
+* Format all rendered assets (html, css, js) in a pre-commit task. (PR #294, thanks @balazs-endresz)
 
 
 Version 0.10.1
