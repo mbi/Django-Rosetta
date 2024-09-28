@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     (error) => {
                         console.error("Rosetta translation suggestion error:", error);
                         let errorMsg;
-                        if (error && error.message) {
+                        if (error?.message) {
                             errorMsg = error.message;
-                        } else if (error && error.error) {
+                        } else if (error?.error) {
                             errorMsg = error.error;
                         } else if (typeof error === "object") {
                             errorMsg = JSON.stringify(error);
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alignPlurals();
 
     // Reload page when changing ref-language
-    document.getElementById("ref-language-selector").addEventListener("change", function () {
+    document.getElementById("ref-language-selector")?.addEventListener("change", function () {
         window.location.href = this.value;
     });
 

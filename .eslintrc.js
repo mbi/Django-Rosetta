@@ -4,7 +4,7 @@ module.exports = {
         browser: true,
         node: true,
     },
-    parserOptions: { ecmaVersion: 9 },
+    parserOptions: { ecmaVersion: 2020 },
     globals: {
         $: "readonly",
     },
