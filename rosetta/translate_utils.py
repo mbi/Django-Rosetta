@@ -46,7 +46,6 @@ def translate(text, from_language, to_language):
     else:
         raise TranslationException("No translation API service is configured.")
 
-
 def format_text(text, direction="to_deepl"):
     # TODO find a better name
     if direction == "to_deepl":
@@ -58,18 +57,18 @@ def format_text(text, direction="to_deepl"):
             variable = match.group(1)
             type_specifier = match.group(2)
             if variable and type_specifier:
-                return f"<var>{variable}</var><type><var>{type_specifier}</var></type>"
+                return f'<var type="{type_specifier}">{variable}</var>'
             else:
                 raise TranslationException("Badly formatted variable in translation")
 
         return re.sub(pattern, replace_variable, text)
     else:
-        return (
-            text.replace("<type><var>", "")
-            .replace("</var></type>", "")
-            .replace("<var>", "%(")
-            .replace("</var>", ")")
-        )
+        
+        for g in re.finditer(r'.*?<var type="(?P<type>[rsd])">(?P<variable>[0-9a-zA-Z_]+)</var>.*?', text):
+            t, v = g.groups()
+            text = text.replace(f'<var type="{t}">{v}</var>', f"%({v}){t}")
+        return text
+
 
 
 def translate_by_deepl(text, to_language, auth_key):

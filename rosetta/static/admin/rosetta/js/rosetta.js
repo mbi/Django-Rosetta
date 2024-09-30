@@ -19,7 +19,7 @@ $(document).ready(function() {
         var sourceLang = rosetta_settings.MESSAGES_SOURCE_LANGUAGE_CODE;
         var destLang = rosetta_settings.rosetta_i18n_lang_code_normalized;
 
-        orig = unescape(orig).replace(/<br\s?\/?>/g,'\n').replace(/<code>/,'').replace(/<\/code>/g,'').replace(/&gt;/g,'>').replace(/&lt;/g,'<');
+        orig = unescape(orig).replace(/<br\s?\/?>/g,'\n').replace(/<code>/g,'').replace(/<\/code>/g,'').replace(/&gt;/g,'>').replace(/&lt;/g,'<');
         a.attr('class','suggesting').html('...');
 
         $.getJSON(rosetta_settings.translate_text_url, {
