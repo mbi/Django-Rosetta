@@ -5,8 +5,8 @@ const rosetta_settings = JSON.parse(document.getElementById("rosetta-settings-js
 document.addEventListener("DOMContentLoaded", () => {
     // Get original html that corresponds to a given textarea containing the translation
     function originalForTextarea(textarea) {
-        const textareas = textarea.closest("td").querySelectorAll("textarea");
-        const nth = Array.from(textareas).indexOf(textarea) + 1;
+        const textareasInCell = textarea.closest("td").querySelectorAll("textarea");
+        const nth = Array.from(textareasInCell).indexOf(textarea) + 1;
         return textarea
             .closest("tr")
             .querySelector(".original")
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     (translation) => {
                         textarea.value = translation;
                         textarea.dispatchEvent(new Event("input"));
+                        textarea.dispatchEvent(new Event("change"));
                         textarea.dispatchEvent(new Event("blur"));
                         a.style.visibility = "hidden";
                     },
@@ -128,40 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // For each translation field textarea
-    document.querySelectorAll(".translation textarea").forEach((textarea) => {
-        // Make textarea heights adapt to their contents on page load
+    // Make textarea height adapt to the contents
+    function autofitTextarea(textarea) {
         textarea.style.height = "auto";
         textarea.style.height = textarea.scrollHeight + "px";
-
-        // On input
-        textarea.addEventListener("input", function () {
-            // Make textarea heights adapt to their contents
-            this.style.height = "auto";
-            this.style.height = this.scrollHeight + "px";
-
-            // If there are multiple textareas for plurals then align the originals vertically with the textareas
-            alignPlurals();
-
-            // Once users start editing the translation untick the fuzzy checkbox automatically
-            const cb = this.closest("tr").querySelector('td.c input[type="checkbox"]');
-            if (cb.checked) {
-                cb.checked = false;
-            }
-        });
-
-        // On blur show warnings for unmatched variables in translations
-        textarea.addEventListener("blur", function () {
-            const orig = originalForTextarea(this);
-            const variablePattern = /%(?:\([^\s)]*\))?[sdf]|\{[\w\d_]+?\}/g;
-            const origVars = orig.match(variablePattern) || [];
-            const transVars = this.value.match(variablePattern) || [];
-            const everyOrigVarUsed = origVars.every((origVar) => transVars.includes(origVar));
-            const onlyValidVarsUsed = transVars.every((transVar) => origVars.includes(transVar));
-            const valid = everyOrigVarUsed && onlyValidVarsUsed;
-            this.previousElementSibling.classList.toggle("hidden", valid);
-        });
-    });
+    }
 
     // If there are multiple textareas for plurals then align the originals vertically with the textareas
     function alignPlurals() {
@@ -177,6 +149,44 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // Show warning if the variables in the original and the translation don't match
+    function validateTranslation(textarea) {
+        const orig = originalForTextarea(textarea);
+        const variablePattern = /%(?:\([^\s)]*\))?[sdf]|\{[\w\d_]+?\}/g;
+        const origVars = orig.match(variablePattern) || [];
+        const transVars = textarea.value.match(variablePattern) || [];
+        const everyOrigVarUsed = origVars.every((origVar) => transVars.includes(origVar));
+        const onlyValidVarsUsed = transVars.every((transVar) => origVars.includes(transVar));
+        const valid = everyOrigVarUsed && onlyValidVarsUsed;
+        textarea.previousElementSibling.classList.toggle("hidden", valid);
+    }
+
+    // Select all the textareas that are used for translations
+    const textareas = document.querySelectorAll(".translation textarea");
+
+    // For each translation field textarea
+    textareas.forEach((textarea) => {
+        // On page load make textarea height adapt to its contents
+        autofitTextarea(textarea);
+
+        // On input
+        textarea.addEventListener("input", () => {
+            // Make textarea height adapt to its contents
+            autofitTextarea(textarea);
+
+            // If there are multiple textareas for plurals then align the originals vertically with the textareas
+            alignPlurals();
+
+            // Once users start editing the translation untick the fuzzy checkbox automatically
+            textarea.closest("tr").querySelector('td.c input[type="checkbox"]').checked = false;
+        });
+
+        // On blur show warnings for unmatched variables in translations
+        textarea.addEventListener("blur", () => validateTranslation(textarea));
+    });
+
+    // On page load if there are multiple textareas in a cell for plurals then align the originals vertically with them
     alignPlurals();
 
     // Reload page when changing ref-language
