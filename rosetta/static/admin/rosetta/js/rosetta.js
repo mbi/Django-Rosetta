@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show warning if the variables in the original and the translation don't match
     function validateTranslation(textarea) {
         const orig = originalForTextarea(textarea);
-        const variablePattern = /%(?:\([^\s)]*\))?[sdf]|\{[\w\d_]+?\}/g;
+        const variablePattern = /%(?:\([^\s)]*\))?[sdf]|\{[^\s}]*\}/g;
         const origVars = orig.match(variablePattern) || [];
         const transVars = textarea.value.match(variablePattern) || [];
         const everyOrigVarUsed = origVars.every((origVar) => transVars.includes(origVar));
