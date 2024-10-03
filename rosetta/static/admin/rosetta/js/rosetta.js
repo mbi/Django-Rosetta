@@ -129,12 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // For each translation field textarea
-    document.querySelectorAll(".translation textarea").forEach((textarea, i) => {
-        // Focus on the first textarea on page load
-        if (i === 0) {
-            textarea.focus();
-        }
-
+    document.querySelectorAll(".translation textarea").forEach((textarea) => {
         // Make textarea heights adapt to their contents on page load
         textarea.style.height = "auto";
         textarea.style.height = textarea.scrollHeight + "px";
