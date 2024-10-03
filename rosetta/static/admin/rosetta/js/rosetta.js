@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Toggle fuzzy state for all entries on the current page
-    document.getElementById("action-toggle").addEventListener("change", function () {
+    document.getElementById("action-toggle")?.addEventListener("change", function () {
         const checkboxes = document.querySelectorAll('tbody td.c input[type="checkbox"]');
         checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
     });
@@ -224,13 +224,15 @@ document.addEventListener("DOMContentLoaded", () => {
         new FormData(form).forEach((value, key) => (obj[key] = value));
         return JSON.stringify(obj);
     }
-    const initialDataJson = formToJsonString();
-    let isSubmitting = false;
-    form.addEventListener("submit", () => (isSubmitting = true));
-    window.addEventListener("beforeunload", (event) => {
-        if (!isSubmitting && initialDataJson !== formToJsonString()) {
-            event.preventDefault();
-            event.returnValue = "";
-        }
-    });
+    if (form) {
+        const initialDataJson = formToJsonString();
+        let isSubmitting = false;
+        form.addEventListener("submit", () => (isSubmitting = true));
+        window.addEventListener("beforeunload", (event) => {
+            if (!isSubmitting && initialDataJson !== formToJsonString()) {
+                event.preventDefault();
+                event.returnValue = "";
+            }
+        });
+    }
 });
