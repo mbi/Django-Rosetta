@@ -186,6 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
         textarea.addEventListener("blur", () => validateTranslation(textarea));
     });
 
+    // On window resize make textarea height adapt to their contents
+    window.addEventListener("resize", () => textareas.forEach(autofitTextarea), { passive: true });
+
     // On page load if there are multiple textareas in a cell for plurals then align the originals vertically with them
     alignPlurals();
 
