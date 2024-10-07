@@ -1,4 +1,5 @@
 import json
+import re
 import uuid
 
 import requests
@@ -50,7 +51,41 @@ def translate(text, from_language, to_language):
         raise TranslationException("No translation API service is configured.")
 
 
+def format_text_to_deepl(text):
+    pattern = r"%\((\w+)\)(\w)"
+
+    def replace_variable(match):
+        # Our pattern will always catch 2 groups, the first group being '%('
+        # Second group being ')d' or ')s'
+        variable = match.group(1)
+        type_specifier = match.group(2)
+        if variable and type_specifier:
+            return f'<var type="{type_specifier}">{variable}</var>'
+        else:
+            raise TranslationException("Badly formatted variable in translation")
+
+    return re.sub(pattern, replace_variable, text)
+
+
+def format_text_from_deepl(text):
+    for g in re.finditer(
+        r'.*?<var type="(?P<type>[rsd])">(?P<variable>[0-9a-zA-Z_]+)</var>.*?', text
+    ):
+        t, v = g.groups()
+        text = text.replace(f'<var type="{t}">{v}</var>', f"%({v}){t}")
+    return text
+
+
 def translate_by_deepl(text, to_language, auth_key):
+    """
+    This method connects to the translator Deepl API and fetches a response with translations.
+    :param text: The source text to be translated
+    :param to_language: The target language to translate the text into
+    Wraps variables in <var></var> tags and instructs Deepl not to translate those.
+    Then from Deepl response, converts back these tags to django variable syntax.
+    %(name)s becomes <var type="s">name</var> and back to %(name)s in the response text.
+    :return: Returns the response from the Deepl as a python object.
+    """
     if auth_key.lower().endswith(":fx"):
         endpoint = "https://api-free.deepl.com"
     else:
@@ -60,16 +95,19 @@ def translate_by_deepl(text, to_language, auth_key):
         f"{endpoint}/v2/translate",
         headers={"Authorization": f"DeepL-Auth-Key {auth_key}"},
         data={
+            "tag_handling": "xml",
+            "ignore_tags": "var",
             "target_lang": to_language.upper(),
-            "text": text,
+            "text": format_text_to_deepl(text),
         },
     )
     if r.status_code != 200:
         raise TranslationException(
             f"Deepl response is {r.status_code}. Please check your API key or try again later."
         )
+
     try:
-        return r.json().get("translations")[0].get("text")
+        return format_text_from_deepl(r.json().get("translations")[0].get("text"))
     except Exception:
         raise TranslationException("Deepl returned a non-JSON or unexpected response.")
 

@@ -24,7 +24,7 @@ $(document).ready(function () {
 
                 orig = unescape(orig)
                     .replace(/<br\s?\/?>/g, "\n")
-                    .replace(/<code>/, "")
+                    .replace(/<code>/g, "")
                     .replace(/<\/code>/g, "")
                     .replace(/&gt;/g, ">")
                     .replace(/&lt;/g, "<");

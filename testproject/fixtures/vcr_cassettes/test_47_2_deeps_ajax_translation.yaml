@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: target_lang=FR&text=hello+world
+    body: tag_handling=xml&ignore_tags=var&target_lang=FR&text=hello+world
     headers:
       Accept:
       - '*/*'
