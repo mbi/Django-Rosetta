@@ -63,6 +63,7 @@ LANGUAGES = (
     ("fr", "French"),
     ("zh_Hans", "Chinese (Simplified)"),
     ("fr_FR.utf8", "French (France), UTF8"),
+    ("az", "Azerbaijani"),
 )
 
 
@@ -128,3 +129,5 @@ DEEPL_LANGUAGES = None  # ex: {"fr": "FR", "en": "EN-GB", "zh_Hans": "ZH"}
 
 # Speed up testing. Don't use this setting in production
 PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
+
+OPENAI_API_KEY = None

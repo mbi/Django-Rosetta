@@ -1015,7 +1015,7 @@ class RosettaTestCase(TestCase):
         record_mode="once",
     )
     @override_settings(
-        DEEPL_AUTH_KEY="f03e38a2-f9ff-68da-b635-322047985051:fx",
+        DEEPL_AUTH_KEY="FAKE",
         AZURE_CLIENT_SECRET=None,
     )
     def test_deepl_ajax_translation_with_variables(self):

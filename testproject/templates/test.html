@@ -2,8 +2,8 @@
 
 {% trans "Some text to translate" %}
 
-{% blocktrans %}
-one bottle of beer on the wall
+{% blocktrans trimmed %}
+    one bottle of beer on the wall
 {% plural %}
-{{num_bottles}} bottles of beer on the wall
+    {{ num_bottles }} bottles of beer on the wall
 {% endblocktrans %}

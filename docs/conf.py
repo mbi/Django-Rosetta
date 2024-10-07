@@ -12,7 +12,6 @@
 # serve to show the default.
 
 import os
-import shlex
 import sys
 
 
@@ -60,7 +59,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Django Rosetta"
-copyright = "2008 – 2023 Marco Bonetti and contributors"
+copyright = "2008 – 2024 Marco Bonetti and contributors"
 author = "Marco Bonetti"
 
 

@@ -7,7 +7,7 @@ interactions:
       Accept-Encoding:
       - gzip, deflate
       Authorization:
-      - DeepL-Auth-Key f03e38a2-f9ff-68da-b635-322047985051:fx
+      - DeepL-Auth-Key FAKE
       Connection:
       - keep-alive
       Content-Length:
