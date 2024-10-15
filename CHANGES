@@ -1,6 +1,11 @@
 Version History
 ===============
 
+Version 0.9.9.1
+-------------
+* Remamed the zh_hans locale to zh_Hans (issue #282, thanks @sunfkny)
+
+
 Version 0.9.9
 -------------
 * Use packaged jQuery instead of the CDN version. (#274, thanks @stephanema1)
