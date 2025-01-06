@@ -7,6 +7,7 @@ Version 0.10.2 (unreleased)
 * Format all rendered assets (html, css, js) in a pre-commit task. (PR #294, thanks @balazs-endresz)
 * Fix Deepl translations containing variables (#276, PR #290, thanks @halitcelik)
 * Rewrite rosetta.js: drop jQuery and modernize rosetta.js (PR #295, thanks @balazs-endresz)
+* Fix broken link in documentation (PR #300, thanks @KommuSoft)
 
 
 Version 0.10.1
