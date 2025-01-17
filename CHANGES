@@ -8,7 +8,7 @@ Version 0.10.2 (unreleased)
 * Fix Deepl translations containing variables (#276, PR #290, thanks @halitcelik)
 * Rewrite rosetta.js: drop jQuery and modernize rosetta.js (PR #295, thanks @balazs-endresz)
 * Fix broken link in documentation (PR #300, thanks @KommuSoft)
-
+* Test against Django 5.2a1
 
 Version 0.10.1
 --------------
